@@ -5,63 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peace Park Command</title>
     <style>
-        body { font-family: sans-serif; background: #f0f0f0; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
-        .header-img { width: 100%; max-width: 400px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; width: 100%; max-width: 400px; margin-bottom: 15px; }
-        .bed { background: #2e7d32; color: white; aspect-ratio: 1; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; border: none; }
-        .menu-btn { width: 100%; max-width: 400px; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .calendar { background: #4caf50; }
-        .fridge { background: #ff9800; }
-        .patrol { background: #f44336; }
-        .volunteer { background: #2196f3; }
-        .info-card { width: 100%; max-width: 380px; background: white; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 5px solid #8bc34a; }
-        h3 { margin: 0 0 10px 0; color: #2e7d32; font-size: 16px; }
-        p { margin: 5px 0; font-size: 14px; color: #333; }
+        body { font-family: sans-serif; background: #f4f4f9; margin: 0; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; }
+        .screen { display: none; width: 100%; max-width: 450px; padding: 10px; box-sizing: border-box; }
+        .active { display: block !important; }
+        
+        /* Header & Image */
+        .header-img { width: 100%; border-radius: 8px; margin-bottom: 10px; display: block; }
+        
+        /* The Grid */
+        .grid { background: #fff; padding: 10px; border-radius: 8px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; }
+        .bed { aspect-ratio: 1; background: #2e7d32; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px; border: none; }
+        
+        /* Buttons */
+        .nav-btn { width: 100%; padding: 15px; margin-top: 10px; border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; font-size: 14px; display: block; }
+        .box { background: #fff; padding: 15px; border-radius: 8px; margin-top: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; }
+        
+        /* Forms */
+        textarea, select, input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .send { background: #2e7d32; color: #fff; border: none; width: 100%; padding: 15px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        /* Modal */
+        #modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; flex-direction: column; justify-content: center; align-items: center; color: white; padding: 20px; box-sizing: border-box; }
+        #mi { max-width: 90%; max-height: 40%; border-radius: 8px; margin-bottom: 15px; object-fit: cover; }
+        .back-link { color: #fff; margin-bottom: 20px; text-decoration: underline; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <img src="https://raw.githubusercontent.com/illzwillz/PEACE-PARK-PARTNERS/Main/Peace_Park_Photo.jpg" class="header-img" alt="Peace Park">
-
-    <div class="grid" id="gardenGrid">
-        </div>
-
-    <button class="menu-btn calendar">📅 PHILLY PLANTING CALENDAR</button>
-    <button class="menu-btn fridge">🥦 FRIDGE</button>
-    <button class="menu-btn patrol">🛡️ PATROL</button>
-    <button class="menu-btn volunteer">🙋 VOLUNTEER</button>
-
-    <div class="info-card">
-        <h3>🌱 Quick Soil Check</h3>
-        <p><b>Good:</b> Dark & Crumbly.</p>
-        <p><b>Bad:</b> Hard/Pale (Needs compost) or Cracked (Needs water).</p>
+<div id="h" class="screen active">
+    <img src="https://i.postimg.cc/3RS56THh/Head.jpg" class="header-img" alt="Philly Peace Park">
+    
+    <div class="grid" id="gt"></div>
+    
+    <button class="nav-btn" style="background:#4caf50" onclick="show('g')">📅 PHILLY PLANTING CALENDAR</button>
+    <button class="nav-btn" style="background:#ff9800" onclick="show('f')">🥦 FRIDGE</button>
+    <button class="nav-btn" style="background:#f44336" onclick="show('p')">🛡️ PATROL</button>
+    <button class="nav-btn" style="background:#2196f3" onclick="show('v')">🙋 VOLUNTEER</button>
+    
+    <div class="box">
+        <h4 style="margin:0 0 5px 0; color:#2e7d32">🌱 Quick Soil Check</h4>
+        <p style="font-size: 13px; margin:0;"><b>Good:</b> Dark & Crumbly. <br><b>Bad:</b> Hard/Pale or Cracked.</p>
     </div>
+</div>
 
-    <script>
-        const grid = document.getElementById('gardenGrid');
-        for (let i = 1; i <= 21; i++) {
-            const btn = document.createElement('button');
-            btn.className = 'bed';
-            btn.innerText = i;
-            btn.onclick = () => alert('Bed ' + i + ' status: Active');
-            grid.appendChild(btn);
-        }
-    </script>
-</body>
-</html>
+<div id="f" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>🥦 Fridge</h3><select id="fS"><option>Clean</option><option>Needs Cleaning</option></select><textarea id="fN" placeholder="Notes..."></textarea><button class="send" onclick="send('Fridge')">📧 SEND</button></div></div>
+<div id="p" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>🛡️ Patrol</h3><textarea id="pN" placeholder="Security notes..."></textarea><button class="send" style="background:#f44336" onclick="send('Security')">📧 SEND</button></div></div>
 <div id="v" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>🙋 Volunteer</h3><textarea id="vN" placeholder="Tasks done..."></textarea><button class="send" style="background:#2196f3" onclick="send('Volunteer')">📧 SEND</button></div></div>
+<div id="g" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>📅 Planting Guide</h3><p>Zone 7b: Plant peas/kale in April, Tomatoes in May.</p></div></div>
 
 <div id="modal" onclick="this.style.display='none'">
+    <div class="back-link">← Close</div>
     <h2 id="mt"></h2>
-    <img id="mi">
-    <div class="box" onclick="event.stopPropagation()" style="width:85%; color:#000">
-        <select id="bType">
-            <option value="Update">Regular Update</option>
-            <option value="ID Request">Identify Plant/Weed</option>
-            <option value="Soil Check">Check Soil Quality</option>
-        </select>
-        <input type="file" accept="image/*" capture="camera" id="bFile">
-        <textarea id="bn" placeholder="Notes for Admins..."></textarea>
+    <img id="mi" src="">
+    <div class="box" onclick="event.stopPropagation()" style="color:#000; width: 100%;">
+        <select id="bType"><option>Regular Update</option><option>Soil Check</option></select>
+        <textarea id="bn" placeholder="Bed notes..."></textarea>
+        <button class="send" onclick="send('Bed')">📧 SEND REPORT</button>
+    </div>
+</div>
+
+<script>
+    const imgs={1:"gjq9dGGy/NB1",2:"MpYyBNG8/NB2",3:"SR0X3fKW/20260415-145014",4:"wjP9wTMP/NB4",5:"ZRmtQ9SK/NB5",6:"CKyWZZdC/NB6",7:"zX6QMLwR/NB7",8:"pr7sg7Fw/NB8",9:"Pf4yYCFs/NB9",10:"fLvccPCL/20260415-144828",11:"hGWTHn3C/NB11",12:"brB2LftQ/NB12",13:"pdH5sZpC/NB13",14:"JnhgvSnT/Nb14",15:"BnV12KF8/NB15",16:"sXtcmLZS/NB16",17:"Dzkp5trd/NB17",18:"mkLrvL9N/NB18",19:"mk8K58LF/NB19",20:"15WZC54Z/NB20",21:"pd5xnb2S/NB21"};
+    let actB = "";
+
+    function show(id){
+        document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    // Generate 21 Beds
+    const gt = document.getElementById('gt');
+    for(let i=1; i<=21; i++){
+        let b = document.createElement('button');
+        b.className = 'bed';
+        b.innerText = i;
+        b.onclick = () => {
+            actB = "Bed " + i;
+            document.getElementById('mt').innerText = actB;
+            document.getElementById('mi').src = "https://i.postimg.cc/" + imgs[i] + ".jpg";
+            document.getElementById('modal').style.display = 'flex';
+        };
+        gt.appendChild(b);
+    }
+
+    function send(t){
+        const emails = "tcaison@gmail.com, illzwillz2016@gmail.com";
+        let body = `Peace Park Report: ${t}\n\n`;
+        if(t=='Bed') body += `${actB}\nNotes: ${document.getElementById('bn').value}`;
+        else if(t=='Fridge') body += `Status: ${document.getElementById('fS').value}\nNotes: ${document.getElementById('fN').value}`;
+        window.location.href = `mailto:${emails}?subject=Peace Park ${t}&body=${encodeURIComponent(body)}`;
+    }
+</script>
+</body>
+</html>
         <button class="send" onclick="send('Bed')">📧 SEND TO ADMINS</button>
     </div>
 </div>
