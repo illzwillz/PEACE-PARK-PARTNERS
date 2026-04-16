@@ -5,63 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peace Park Command</title>
     <style>
-        body{font-family:sans-serif;background:#f4f4f9;margin:0;display:flex;flex-direction:column;align-items:center}
-        .screen{display:none;width:100%;max-width:450px;padding:10px;box-sizing:border-box}
-        .active{display:block!important}
-        .grid{background:#fff;padding:10px;border-radius:8px;display:flex;flex-direction:column;gap:5px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
-        .row{display:flex;justify-content:center;gap:5px}
-        .bed{width:38px;height:38px;background:#2e7d32;color:#fff;display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;font-weight:bold;font-size:14px}
-        .nav-btn{width:100%;padding:12px;margin-top:8px;border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer}
-        .box{background:#fff;padding:12px;border-radius:8px;margin-top:10px;box-shadow:0 2px 4px rgba(0,0,0,0.1)}
-        textarea,select,input{width:100%;padding:8px;margin:5px 0;border:1px solid #ddd;border-radius:4px;box-sizing:border-box}
-        #modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:99;flex-direction:column;justify-content:center;align-items:center;color:#fff;overflow-y:auto}
-        #modal img{max-width:90%;max-height:40%;border-radius:8px}
-        .send{background:#2e7d32;color:#fff;border:none;width:100%;padding:12px;border-radius:4px;font-weight:bold;cursor:pointer}
-        .guide-text{font-size:13px;color:#444;line-height:1.4}
-        ul{padding-left:20px;margin:5px 0}
+        body { font-family: sans-serif; background: #f0f0f0; margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .header-img { width: 100%; max-width: 400px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; width: 100%; max-width: 400px; margin-bottom: 15px; }
+        .bed { background: #2e7d32; color: white; aspect-ratio: 1; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; border: none; }
+        .menu-btn { width: 100%; max-width: 400px; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; color: white; font-weight: bold; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .calendar { background: #4caf50; }
+        .fridge { background: #ff9800; }
+        .patrol { background: #f44336; }
+        .volunteer { background: #2196f3; }
+        .info-card { width: 100%; max-width: 380px; background: white; padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 5px solid #8bc34a; }
+        h3 { margin: 0 0 10px 0; color: #2e7d32; font-size: 16px; }
+        p { margin: 5px 0; font-size: 14px; color: #333; }
     </style>
 </head>
 <body>
 
-<div id="h" class="screen active">
-    <img src="https://i.postimg.cc/3RS56THh/Head.jpg" style="width:100%;border-radius:8px">
-    <div class="grid" id="gt" style="margin-top:10px"></div>
-    
-    <button class="nav-btn" style="background:#4caf50" onclick="show('g')">📅 PHILLY PLANTING CALENDAR</button>
-    <button class="nav-btn" style="background:#ff9800" onclick="show('f')">🥦 FRIDGE</button>
-    <button class="nav-btn" style="background:#f44336" onclick="show('p')">🛡️ PATROL</button>
-    <button class="nav-btn" style="background:#2196f3" onclick="show('v')">🙋 VOLUNTEER</button>
-    
-    <div class="box">
-        <h4 style="margin:0 0 5px 0; color:#2e7d32">🌱 Quick Soil Check</h4>
-        <div class="guide-text"><b>Good:</b> Dark & Crumbly. <b>Bad:</b> Hard/Pale (Needs compost) or Cracked (Needs water).</div>
-    </div>
-</div>
+    <img src="https://raw.githubusercontent.com/illzwillz/PEACE-PARK-PARTNERS/Main/Peace_Park_Photo.jpg" class="header-img" alt="Peace Park">
 
-<div id="g" class="screen">
-    <button onclick="show('h')" style="margin-bottom:10px;cursor:pointer">← Back to Command</button>
-    <div class="box">
-        <h3 style="color:#2e7d32;margin-top:0">Philadelphia Zone 7b Guide</h3>
-        <p class="guide-text"><b>March/April (Spring Start):</b>
-            <ul><li>Peas, Kale, Lettuce, Spinach, Radishes, Onions.</li></ul>
-        </p>
-        <p class="guide-text"><b>May (After Last Frost):</b>
-            <ul><li>Tomatoes, Peppers, Eggplant, Cucumbers, Squash, Beans, Basil.</li></ul>
-        </p>
-        <p class="guide-text"><b>June/July (Summer Heat):</b>
-            <ul><li>Okra, Sweet Potatoes, Corn, Peppers.</li></ul>
-        </p>
-        <p class="guide-text"><b>August/Sept (Fall Crop):</b>
-            <ul><li>Broccoli, Cabbage, Carrots, Collards, Turnips.</li></ul>
-        </p>
-        <p class="guide-text"><b>October/Nov (Overwinter):</b>
-            <ul><li>Garlic (Plant now for next summer), Cover crops.</li></ul>
-        </p>
-    </div>
-</div>
+    <div class="grid" id="gardenGrid">
+        </div>
 
-<div id="f" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>🥦 Fridge</h3><select id="fS"><option>Clean</option><option>Needs Cleaning</option></select><textarea id="fN" placeholder="Items added..."></textarea><button class="send" onclick="send('Fridge')">📧 SEND</button></div></div>
-<div id="p" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>🛡️ Patrol</h3><textarea id="pN" placeholder="Security notes..."></textarea><button class="send" style="background:#f44336" onclick="send('Security')">📧 SEND</button></div></div>
+    <button class="menu-btn calendar">📅 PHILLY PLANTING CALENDAR</button>
+    <button class="menu-btn fridge">🥦 FRIDGE</button>
+    <button class="menu-btn patrol">🛡️ PATROL</button>
+    <button class="menu-btn volunteer">🙋 VOLUNTEER</button>
+
+    <div class="info-card">
+        <h3>🌱 Quick Soil Check</h3>
+        <p><b>Good:</b> Dark & Crumbly.</p>
+        <p><b>Bad:</b> Hard/Pale (Needs compost) or Cracked (Needs water).</p>
+    </div>
+
+    <script>
+        const grid = document.getElementById('gardenGrid');
+        for (let i = 1; i <= 21; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'bed';
+            btn.innerText = i;
+            btn.onclick = () => alert('Bed ' + i + ' status: Active');
+            grid.appendChild(btn);
+        }
+    </script>
+</body>
+</html>
 <div id="v" class="screen"><button onclick="show('h')">← Back</button><div class="box"><h3>🙋 Volunteer</h3><textarea id="vN" placeholder="Tasks done..."></textarea><button class="send" style="background:#2196f3" onclick="send('Volunteer')">📧 SEND</button></div></div>
 
 <div id="modal" onclick="this.style.display='none'">
