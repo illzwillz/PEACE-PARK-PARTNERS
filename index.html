@@ -36,7 +36,7 @@
 <div id="h" class="screen active">
     <img src="https://i.postimg.cc/504JgQgc/Logo.jpg" class="main-logo">
     <img src="https://i.postimg.cc/3RS56THh/Head.jpg" class="header-img">
-    <h2 style="text-align:center; color:#2e7d32;">Mobile Command Grid</h2>
+    <h2 style="text-align:center; color:#2e7d32;">Philly Peace Park Command</h2>
     <div class="grid" id="gt"></div>
     <button class="nav-btn" style="background:#4caf50" onclick="show('g')">📅 PLANTING CALENDAR</button>
     <button class="nav-btn" style="background:#ff9800" onclick="show('f')">🥦 FRIDGE STATUS</button>
@@ -51,15 +51,73 @@
     <div class="box">
         <h3>Volunteer Log</h3>
         <a href="https://postimages.org/" target="_blank" class="photo-link">📸 STEP 1: UPLOAD PHOTO HERE</a>
-        <textarea id="vN" placeholder="Paste link + add notes..."></textarea>
+        <textarea id="vN" placeholder="Paste photo link + add notes..."></textarea>
         <button class="send" style="background:#2196f3" onclick="handleSend('Volunteer')">SUBMIT</button>
     </div>
 </div>
-<div id="g" class="screen"><button class="back-btn" onclick="show('h')">← Back</button><div class="box"><h3>Guide</h3><p>Zone 7b: April is for Greens.</p></div></div>
+<div id="g" class="screen"><button class="back-btn" onclick="show('h')">← Back</button><div class="box"><h3>Guide</h3><p>Zone 7b: Plant greens in April.</p></div></div>
 
 <div id="modal" onclick="this.style.display='none'">
     <h2 id="mt"></h2>
     <img id="mi" src="">
+    <div class="box" onclick="event.stopPropagation()" style="color:#000;">
+        <a href="https://postimages.org/" target="_blank" class="photo-link">📸 OPTIONAL: UPLOAD PHOTO</a>
+        <select id="bType"><option>Health Check</option><option>Planting</option></select>
+        <textarea id="bn" placeholder="Notes or photo link..."></textarea>
+        <button class="send" onclick="handleSend('Bed')">SUBMIT REPORT</button>
+    </div>
+</div>
+
+<script>
+    const G_FORM_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScRvt_SiQbhac4zsJUzSRN_CJ9d7H1eA6VIXl5qY-FZoTnZ4A/formResponse";
+    const ID_LOCATION = "entry.99246292";
+    const ID_TYPE = "entry.340121026";
+    const ID_NOTES = "entry.1782059736";
+
+    const imgs={1:"gjq9dGGy/NB1",2:"MpYyBNG8/NB2",3:"SR0X3fKW/20260415-145014",4:"wjP9wTMP/NB4",5:"ZRmtQ9SK/NB5",6:"CKyWZZdC/NB6",7:"zX6QMLwR/NB7",8:"pr7sg7Fw/NB8",9:"Pf4yYCFs/NB9",10:"fLvccPCL/20260415-144828",11:"hGWTHn3C/NB11",12:"brB2LftQ/NB12",13:"pdH5sZpC/NB13",14:"JnhgvSnT/Nb14",15:"BnV12KF8/NB15",16:"sXtcmLZS/NB16",17:"Dzkp5trd/NB17",18:"mkLrvL9N/NB18",19:"mk8K58LF/NB19",20:"15WZC54Z/NB20",21:"pd5xnb2S/NB21"};
+    let actB = "";
+
+    function show(id){
+        document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    const gt = document.getElementById('gt');
+    for(let i=1; i<=21; i++){
+        let b = document.createElement('button'); b.className = 'bed'; b.innerText = i;
+        b.onclick = () => {
+            actB = "Bed " + i;
+            document.getElementById('mt').innerText = actB;
+            document.getElementById('mi').src = "https://i.postimg.cc/" + imgs[i] + ".jpg";
+            document.getElementById('modal').style.display = 'flex';
+        };
+        gt.appendChild(b);
+    }
+
+    async function handleSend(t) {
+        let loc = t; let type = "Update"; let notes = "";
+        if(t === 'Bed') { loc = actB; type = document.getElementById('bType').value; notes = document.getElementById('bn').value; }
+        else if(t === 'Fridge') { type = "Fridge Update"; notes = document.getElementById('fN').value; }
+        else if(t === 'Security') { type = "Patrol"; notes = document.getElementById('pN').value; }
+        else if(t === 'Volunteer') { type = "Volunteer Work"; notes = document.getElementById('vN').value; }
+
+        const formData = new FormData();
+        formData.append(ID_LOCATION, loc);
+        formData.append(ID_TYPE, type);
+        formData.append(ID_NOTES, notes);
+
+        try {
+            await fetch(G_FORM_URL, { method: 'POST', mode: 'no-cors', body: formData });
+            alert("Peace Park Log Updated!");
+            document.getElementById('modal').style.display = 'none';
+            document.querySelectorAll('textarea').forEach(tx => tx.value = "");
+            show('h');
+        } catch (e) { alert("Error connecting."); }
+    }
+</script>
+</body>
+</html>
     <div class="box" onclick="event.stopPropagation()" style="color:#000;">
         <a href="https://postimages.org/" target="_blank" class="photo-link">📸 OPTIONAL: UPLOAD PHOTO</a>
         <select id="bType"><option>Health Check</option><option>Planting</option></select>
