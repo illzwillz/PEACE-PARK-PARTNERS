@@ -5,136 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Peace Park Command</title>
     <style>
-        /* General Setup */
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #e8f5e9; 
-            background-image: url('https://i.postimg.cc/504JgQgc/Logo.jpg');
-            background-repeat: repeat;
-            background-size: 120px; 
-            background-attachment: fixed;
-            background-blend-mode: overlay; 
-            margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center;
-        }
-
-        /* Screen Management */
+        body { font-family: sans-serif; background-color: #e8f5e9; margin: 0; display: flex; flex-direction: column; align-items: center; }
         .screen { display: none; width: 100%; max-width: 450px; padding: 20px; box-sizing: border-box; }
         .active { display: block !important; }
-
-        /* Images & Logos */
-        .header-img { width: 100%; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .main-logo { width: 90px; height: 90px; border-radius: 50%; display: block; margin: 20px auto; border: 4px solid #2e7d32; background: white; }
-
-        /* Bed Grid */
-        .grid { 
-            background: rgba(255, 255, 255, 0.92); padding: 12px; border-radius: 12px; 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(45px, 1fr)); gap: 8px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box;
-        }
-        .bed { 
-            aspect-ratio: 1; background: #2e7d32; color: white; display: flex; 
-            align-items: center; justify-content: center; border-radius: 8px; 
-            cursor: pointer; font-weight: bold; border: none; font-size: 14px;
-        }
-
-        /* Buttons & Navigation */
-        .nav-btn { 
-            width: 100%; padding: 16px; margin-top: 12px; border: none; border-radius: 10px; 
-            color: white; font-weight: 800; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2); letter-spacing: 1px;
-        }
-        .back-btn { background: #555; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; }
-
-        /* Form Elements */
-        .box { background: rgba(255, 255, 255, 0.98); padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box; }
-        textarea, select { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        .send { background: #2e7d32; color: white; border: none; width: 100%; padding: 18px; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 10px; }
-        .photo-link { background: #222; color: #fff; text-decoration: none; display: block; text-align: center; padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 15px; font-weight: bold; }
-
-        /* Modal Overlay */
-        #modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 1000; flex-direction: column; 
-            justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; 
-        }
-        #mi { max-width: 100%; max-height: 45vh; border-radius: 12px; margin-bottom: 20px; border: 3px solid white; }
+        .main-logo { width: 90px; height: 90px; border-radius: 50%; display: block; margin: 20px auto; border: 4px solid #2e7d32; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; width: 100%; }
+        .bed { aspect-ratio: 1; background: #2e7d32; color: white; border-radius: 8px; border: none; font-size: 13px; font-weight: bold; }
+        .nav-btn { width: 100%; padding: 15px; margin-top: 10px; border: none; border-radius: 10px; color: white; font-weight: 800; cursor: pointer; text-transform: uppercase; text-align: center; display: block; text-decoration: none; }
+        .box { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .back-btn { background: #555; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
 <div id="h" class="screen active">
     <img src="https://i.postimg.cc/504JgQgc/Logo.jpg" class="main-logo">
-    <img src="https://i.postimg.cc/3RS56THh/Head.jpg" class="header-img">
-    <h2 style="text-align:center; color:#1b5e20; margin: 10px 0; font-size: 24px;">COMMAND GRID</h2>
     <div class="grid" id="gt"></div>
-    <button class="nav-btn" style="background:#43a047" onclick="show('g')">📅 Planting Guide</button>
-    <button class="nav-btn" style="background:#fb8c00" onclick="show('f')">🥦 Fridge Status</button>
-    <button class="nav-btn" style="background:#e53935" onclick="show('p')">🛡️ Security Patrol</button>
-    <button class="nav-btn" style="background:#1e88e5" onclick="show('v')">🙋 Volunteer Log</button>
+    <button class="nav-btn" style="background:#2e7d32" onclick="show('s')">📖 Our Story & Team</button>
+    <button class="nav-btn" style="background:#E1306C" onclick="show('links')">🔗 Connect</button>
 </div>
 
-<div id="f" class="screen"><button class="back-btn" onclick="show('h')">← BACK</button><div class="box"><h3>Fridge Report</h3><select id="fS"><option>Clean & Stocked</option><option>Needs Cleaning</option><option>Needs Restock</option></select><textarea id="fN" rows="4" placeholder="Notes..."></textarea><button class="send" onclick="handleSend('Fridge')">SUBMIT FRIDGE LOG</button></div></div>
-<div id="p" class="screen"><button class="back-btn" onclick="show('h')">← BACK</button><div class="box"><h3>Security Log</h3><textarea id="pN" rows="5" placeholder="Report observations..."></textarea><button class="send" style="background:#e53935" onclick="handleSend('Security')">SUBMIT PATROL LOG</button></div></div>
-<div id="v" class="screen"><button class="back-btn" onclick="show('h')">← BACK</button><div class="box"><h3>Volunteer Entry</h3><a href="https://postimages.org/" target="_blank" class="photo-link">📸 STEP 1: UPLOAD PHOTO</a><textarea id="vN" rows="5" placeholder="Step 2: Paste link + task notes..."></textarea><button class="send" style="background:#1e88e5" onclick="handleSend('Volunteer')">LOG HOURS</button></div></div>
-<div id="g" class="screen"><button class="back-btn" onclick="show('h')">← BACK</button><div class="box"><h3>Planting Guide</h3><p><b>Spring (April):</b> Plant peas, kale, beets, and carrots. Watch for late frost!</p></div></div>
-
-<div id="modal" onclick="this.style.display='none'">
-    <h2 id="mt" style="color:white; margin-bottom: 15px;"></h2>
-    <img id="mi" src="">
-    <div class="box" onclick="event.stopPropagation()">
-        <a href="https://postimages.org/" target="_blank" class="photo-link">📸 OPTIONAL: UPLOAD PHOTO</a>
-        <select id="bType"><option>Regular Update</option><option>New Planting</option><option>Harvested</option><option>Pest/Disease Note</option></select>
-        <textarea id="bn" rows="3" placeholder="Notes or photo link..."></textarea>
-        <button class="send" onclick="handleSend('Bed')">SUBMIT BED REPORT</button>
+<!-- Our Story Screen -->
+<div id="s" class="screen">
+    <button class="back-btn" onclick="show('h')">← BACK</button>
+    <div class="box">
+        <h3>Our Story</h3>
+        <p>Founded Feb 19, 2012. We reclaimed vacant lots to champion food sovereignty, community self-determination, and Black culture.</p>
+        <hr>
+        <h3>Core Team</h3>
+        <p><b>Brother Tommy Joshua Caison:</b> Founder & Executive Director</p>
+        <p><b>Pili X:</b> Co-Founder & Park Director</p>
+        <p><b>Lavinia Davis:</b> Director of Operations</p>
+        <p><b>Jessica E. Allen:</b> Farming Director</p>
+        <p><i>Special thanks to Kermit O and the education team for their work in the Sala Keturah STEM Pavilion.</i></p>
     </div>
 </div>
 
+<!-- Links Screen -->
+<div id="links" class="screen">
+    <button class="back-btn" onclick="show('h')">← BACK</button>
+    <a href="https://www.phillypeacepark.org/" class="nav-btn" style="background:#2e7d32">🌐 Official Website</a>
+    <a href="https://www.instagram.com/northphillypeacepark" class="nav-btn" style="background:#E1306C">📸 North Philly IG</a>
+    <a href="https://www.instagram.com/westphillypeacepark" class="nav-btn" style="background:#8a3ab9">📸 West Philly IG</a>
+</div>
+
 <script>
-    const G_FORM_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScRvt_SiQbhac4zsJUzSRN_CJ9d7H1eA6VIXl5qY-FZoTnZ4A/formResponse";
-    const ID_LOCATION = "entry.99246292";
-    const ID_TYPE = "entry.340121026";
-    const ID_NOTES = "entry.1782059736";
-
-    const imgs={1:"gjq9dGGy/NB1",2:"MpYyBNG8/NB2",3:"SR0X3fKW/20260415-145014",4:"wjP9wTMP/NB4",5:"ZRmtQ9SK/NB5",6:"CKyWZZdC/NB6",7:"zX6QMLwR/NB7",8:"pr7sg7Fw/NB8",9:"Pf4yYCFs/NB9",10:"fLvccPCL/20260415-144828",11:"hGWTHn3C/NB11",12:"brB2LftQ/NB12",13:"pdH5sZpC/NB13",14:"JnhgvSnT/Nb14",15:"BnV12KF8/NB15",16:"sXtcmLZS/NB16",17:"Dzkp5trd/NB17",18:"mkLrvL9N/NB18",19:"mk8K58LF/NB19",20:"15WZC54Z/NB20",21:"pd5xnb2S/NB21"};
-    let actB = "";
-
     function show(id){
         document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
         window.scrollTo(0,0);
     }
-
     const gt = document.getElementById('gt');
-    for(let i=1; i<=21; i++){
-        let b = document.createElement('button'); b.className = 'bed'; b.innerText = i;
-        b.onclick = () => {
-            actB = "Bed " + i;
-            document.getElementById('mt').innerText = actB;
-            document.getElementById('mi').src = "https://i.postimg.cc/" + imgs[i] + ".jpg";
-            document.getElementById('modal').style.display = 'flex';
-        };
+    for(let i=1; i<=25; i++){
+        let b = document.createElement('button'); 
+        b.className = 'bed'; 
+        b.innerText = i;
         gt.appendChild(b);
-    }
-
-    async function handleSend(t) {
-        let loc = t; let type = "Update"; let notes = "";
-        if(t === 'Bed') { loc = actB; type = document.getElementById('bType').value; notes = document.getElementById('bn').value; }
-        else if(t === 'Fridge') { type = "Fridge Update"; notes = document.getElementById('fN').value; }
-        else if(t === 'Security') { type = "Patrol Log"; notes = document.getElementById('pN').value; }
-        else if(t === 'Volunteer') { type = "Work Log"; notes = document.getElementById('vN').value; }
-
-        const formData = new FormData();
-        formData.append(ID_LOCATION, loc);
-        formData.append(ID_TYPE, type);
-        formData.append(ID_NOTES, notes);
-
-        try {
-            await fetch(G_FORM_URL, { method: 'POST', mode: 'no-cors', body: formData });
-            alert("Success! Peace Park Log Updated.");
-            document.getElementById('modal').style.display = 'none';
-            document.querySelectorAll('textarea').forEach(tx => tx.value = "");
-            show('h');
-        } catch (e) { alert("Error sending report."); }
     }
 </script>
 </body>
